@@ -65,6 +65,3 @@ endfunction
 
 command! -bang -complete=buffer -nargs=? Bdelete
 	\ :call s:bdelete(<q-bang>, <q-args>)
-
-" Alias also to the common Bclose command:
-command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
