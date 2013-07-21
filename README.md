@@ -1,6 +1,6 @@
 Bbye (Buffer Bye) for Vim
 ==========================
-Bbye allows you to do delete buffers (close files) without messing up your window layout.
+Bbye allows you to do delete buffers (close files) without closing your windows or messing up your layout.
 
 Vim by default closes all windows that have the buffer (file) open when you do `:bdelete`.  If you've just got your splits and columns perfectly tuned, having them messed up equals a punch in the face and that's no way to tango.
 
@@ -11,8 +11,9 @@ Bbye gives you a `:Bdelete` command that behaves like a well designed citizen:
 - Shows an empty file if you've got no other files open.
 - Does not leave useless `[no file]` buffers if you decide to edit another file in that window.
 - Works even if a file's open in multiple windows.
+- Works a-okay with various buffer explorers and tabbars.
 
-Regain your throne of windows!
+Regain your throne as king of buffers!
 
 
 Installing
