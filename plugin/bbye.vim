@@ -30,7 +30,6 @@ function! s:bdelete(bang, buffer_name)
 		if bufnr("%") != buffer | continue | endif
 
 		exe "enew" . a:bang
-		echo "closing: " . buffer . " now: " . bufnr("%")
 		" Leave the buftype as a regular file, so people get warnings if they
 		" have unsaved text there.  Wouldn't want to lose someone's data.
 		setl buftype=""
