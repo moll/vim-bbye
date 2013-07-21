@@ -3,7 +3,7 @@ let g:loaded_bbye = 1
 
 function! s:bdelete(bang, buffer_name)
 	let buffer = s:str2bufnr(a:buffer_name)
-  let current = winnr()
+	let current = winnr()
 
 	if buffer < 0
 		return s:warn("E516: No buffers were deleted. No match for ".a:buffer_name)
@@ -17,14 +17,14 @@ function! s:bdelete(bang, buffer_name)
 	" For cases where adding buffers causes new windows to appear, make sure to
 	" check for the loop end on each iteration.
 	let window = 0
-  while window < winnr("$")
+	while window < winnr("$")
 		let window += 1
 		if winbufnr(window) != buffer | continue | endif
-    execute window . "wincmd w"
+		execute window . "wincmd w"
 
-    let alternate = bufnr("#")
+		let alternate = bufnr("#")
 		" Bprevious wraps around the buffer list, if necessary:
-    exe alternate > 0 && buflisted(alternate) ? "buffer #" : "bprevious"
+		exe alternate > 0 && buflisted(alternate) ? "buffer #" : "bprevious"
 
 		" If found a new buffer for this window, mission accomplished:
 		if bufnr("%") != buffer | continue | endif
@@ -43,24 +43,24 @@ function! s:bdelete(bang, buffer_name)
 		exe "bdelete" . a:bang . " " . buffer
 	endif
 
-  exe current . "wincmd w"
+	exe current . "wincmd w"
 endfunction
 
 function! s:str2bufnr(buffer)
-  if empty(a:buffer)
-    return bufnr("%")
-  elseif a:buffer =~ '^\d\+$'
-    return bufnr(str2nr(a:buffer)rn)
-  else
-    return bufnr(a:buffer)
+	if empty(a:buffer)
+		return bufnr("%")
+	elseif a:buffer =~ '^\d\+$'
+		return bufnr(str2nr(a:buffer)rn)
+	else
+		return bufnr(a:buffer)
 	endif
 endfunction
 
 " Using the built-in :echoerr prints a stacktrace, which isn't that nice.
 function! s:warn(msg)
-  echohl ErrorMsg
-  echomsg a:msg
-  echohl NONE
+	echohl ErrorMsg
+	echomsg a:msg
+	echohl NONE
 endfunction
 
 command! -bang -complete=buffer -nargs=? Bdelete
