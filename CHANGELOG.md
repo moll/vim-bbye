@@ -1,7 +1,8 @@
 ## Unreleased
-- Hid the empty buffer from buffer explorers and tabbars.
-- Handle `:Bdelete!`ing buffers which are set to auto-delete via `&bufhidden`.
-- Wipe empty buffers after hiding to reduce the amount of unlisted buffers after using Bbye for a while.
+- Hides the empty buffer from buffer explorers and tabbars.
+- Handles `:Bdelete!`ing buffers which are set to auto-delete via `&bufhidden`.
+- Wipes empty buffers after hiding to reduce the amount of unlisted buffers after using Bbye for a while.
+- Handles buffer explorers and tabbars better that remove or add windows mid-flight.
 
 ## 0.9.1 (Jul 21, 2013)
 - Removed an innocent but forgotten debugging line. Now even more perfect.

@@ -3,7 +3,7 @@ let g:loaded_bbye = 1
 
 function! s:bdelete(bang, buffer_name)
 	let buffer = s:str2bufnr(a:buffer_name)
-	let current = winnr()
+	let w:bbye_back = 1
 
 	if buffer < 0
 		return s:warn("E516: No buffers were deleted. No match for ".a:buffer_name)
@@ -20,11 +20,10 @@ function! s:bdelete(bang, buffer_name)
 		call setbufvar(buffer, "&bufhidden", "hide")
 	endif
 
-	" For cases where adding buffers causes new windows to appear, make sure to
-	" check for the loop end on each iteration.
-	let window = 0
-	while window < winnr("$")
-		let window += 1
+	" For cases where adding buffers causes new windows to appear or hiding some
+	" causes windows to disappear and thereby decrement, loop backwards.
+	for window in reverse(range(1, winnr("$")))
+		" For invalid window numbers, winbufnr returns -1.
 		if winbufnr(window) != buffer | continue | endif
 		execute window . "wincmd w"
 
@@ -45,12 +44,15 @@ function! s:bdelete(bang, buffer_name)
 		setl buftype=
 		" Hide the buffer from buffer explorers and tabbars:
 		setl nobuflisted
-	endwhile
+	endfor
 
 	" If it hasn't been already deleted by &bufhidden, end its pains now.
 	if bufexists(buffer) | exe "bdelete" . a:bang . " " . buffer | endif
 
-	exe current . "wincmd w"
+	" Because tabbars and other appearing/disappearing windows change
+	" the window numbers, find where we were manually:
+	let back = filter(range(1, winnr("$")), "getwinvar(v:val, 'bbye_back')")[0]
+	if back | exe back . "wincmd w" | unlet w:bbye_back | endif
 endfunction
 
 function! s:str2bufnr(buffer)
