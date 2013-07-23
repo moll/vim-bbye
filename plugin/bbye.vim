@@ -39,7 +39,7 @@ function! s:bdelete(bang, buffer_name)
 		exe "enew" . a:bang
 		setl noswapfile
 		" If empty and out of sight, delete it right away:
-		setl bufhidden=delete
+		setl bufhidden=wipe
 		" Regular buftype warns people if they have unsaved text there.  Wouldn't
 		" want to lose someone's data:
 		setl buftype=
