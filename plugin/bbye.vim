@@ -38,13 +38,16 @@ function! s:bdelete(bang, buffer_name)
 		call s:new(a:bang) 
 	endfor
 
-	" If it hasn't been already deleted by &bufhidden, end its pains now.
-	if bufexists(buffer) | exe "bdelete" . a:bang . " " . buffer | endif
-
 	" Because tabbars and other appearing/disappearing windows change
 	" the window numbers, find where we were manually:
 	let back = filter(range(1, winnr("$")), "getwinvar(v:val, 'bbye_back')")[0]
 	if back | exe back . "wincmd w" | unlet w:bbye_back | endif
+
+	" If it hasn't been already deleted by &bufhidden, end its pains now.
+	" Unless it previously was an unnamed buffer and :enew returned it again.
+	if bufexists(buffer) && buffer != bufnr("%")
+		exe "bdelete" . a:bang . " " . buffer
+	endif
 endfunction
 
 function! s:str2bufnr(buffer)
