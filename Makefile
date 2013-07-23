@@ -3,7 +3,10 @@ VERSION := "0.9.1"
 love:
 	@echo "Feel like makin' love."
 
-pkg:
+pack:
 	zip -r vim-bbye-$(VERSION).zip * --exclude Makefile --exclude "*.zip"
+
+publish:
+	open "http://www.vim.org/scripts/add_script_version.php?script_id=4664"
 	
-.PHONY: love pkg
+.PHONY: love pack publish
