@@ -1,3 +1,6 @@
+## 1.0.1 (Jul 23, 2013)
+- Fix `:Bdelete`ing via buffer number. Finally, perfect!
+
 ## 1.0.0 (Jul 23, 2013)
 - Hides the empty buffer from buffer explorers and tabbars.
 - Handles `:Bdelete!`ing buffers which are set to auto-delete via `&bufhidden`.

@@ -54,7 +54,7 @@ function! s:str2bufnr(buffer)
 	if empty(a:buffer)
 		return bufnr("%")
 	elseif a:buffer =~ '^\d\+$'
-		return bufnr(str2nr(a:buffer)rn)
+		return bufnr(str2nr(a:buffer))
 	else
 		return bufnr(a:buffer)
 	endif
