@@ -35,15 +35,7 @@ function! s:bdelete(bang, buffer_name)
 		" If found a new buffer for this window, mission accomplished:
 		if bufnr("%") != buffer | continue | endif
 
-		exe "enew" . a:bang
-		setl noswapfile
-		" If empty and out of sight, delete it right away:
-		setl bufhidden=wipe
-		" Regular buftype warns people if they have unsaved text there.  Wouldn't
-		" want to lose someone's data:
-		setl buftype=
-		" Hide the buffer from buffer explorers and tabbars:
-		setl nobuflisted
+		call s:new(a:bang) 
 	endfor
 
 	" If it hasn't been already deleted by &bufhidden, end its pains now.
@@ -63,6 +55,19 @@ function! s:str2bufnr(buffer)
 	else
 		return bufnr(a:buffer)
 	endif
+endfunction
+
+function! s:new(bang)
+	exe "enew" . a:bang
+
+	setl noswapfile
+	" If empty and out of sight, delete it right away:
+	setl bufhidden=wipe
+	" Regular buftype warns people if they have unsaved text there.  Wouldn't
+	" want to lose someone's data:
+	setl buftype=
+	" Hide the buffer from buffer explorers and tabbars:
+	setl nobuflisted
 endfunction
 
 " Using the built-in :echoerr prints a stacktrace, which isn't that nice.
