@@ -22,19 +22,23 @@ function! s:bdelete(bang, buffer_name)
 		if winbufnr(window) != buffer | continue | endif
 		execute window . "wincmd w"
 
-		let alternate = bufnr("#")
-		" Bprevious wraps around the buffer list, if necessary:
-		exe alternate > 0 && buflisted(alternate) ? "buffer #" : "bprevious"
+		" Bprevious also wraps around the buffer list, if necessary:
+		try | exe bufnr("#") > 0 && buflisted(bufnr("#")) ? "buffer #" : "bprevious"
+		catch /^Vim([^)]*):E85:/ " E85: There is no listed buffer
+		endtry
 
 		" If found a new buffer for this window, mission accomplished:
 		if bufnr("%") != buffer | continue | endif
 
 		exe "enew" . a:bang
-		" Leave the buftype as a regular file, so people get warnings if they
-		" have unsaved text there.  Wouldn't want to lose someone's data.
-		setl buftype=""
-		setl bufhidden=delete
 		setl noswapfile
+		" If empty and out of sight, delete it right away:
+		setl bufhidden=delete
+		" Regular buftype warns people if they have unsaved text there.  Wouldn't
+		" want to lose someone's data:
+		setl buftype=
+		" Hide the buffer from buffer explorers and tabbars:
+		setl nobuflisted
 	endwhile
 
 	" If it hasn't been already deleted by &bufhidden, end its pains now:
