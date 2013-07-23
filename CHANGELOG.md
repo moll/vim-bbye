@@ -6,7 +6,7 @@
 - Improves an edge-case where the empty buffer might get listed and show up in buffer explorers.
 
 ## 0.9.1 (Jul 21, 2013)
-- Removed an innocent but forgotten debugging line. Now even more perfect.
+- Removes an innocent but forgotten debugging line. Now even more perfect.
 
 ## 0.9.0 (Jul 21, 2013)
 - First release. It's perfect.
