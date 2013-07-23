@@ -9,9 +9,15 @@ function! s:bdelete(bang, buffer_name)
 		return s:warn("E516: No buffers were deleted. No match for ".a:buffer_name)
 	endif
 
-	if empty(a:bang) && getbufvar(buffer, "&modified")
+	if getbufvar(buffer, "&modified") && empty(a:bang)
 		let error = "E89: No write since last change for buffer "
 		return s:warn(error . buffer . " (add ! to override)")
+	endif
+
+	" If the buffer is set to delete and it contains changes, we can't switch
+	" away from it. Hide it before eventual deleting:
+	if getbufvar(buffer, "&modified") && !empty(a:bang)
+		call setbufvar(buffer, "&bufhidden", "hide")
 	endif
 
 	" For cases where adding buffers causes new windows to appear, make sure to
@@ -41,10 +47,8 @@ function! s:bdelete(bang, buffer_name)
 		setl nobuflisted
 	endwhile
 
-	" If it hasn't been already deleted by &bufhidden, end its pains now:
-	if bufexists(buffer) && buflisted(buffer)
-		exe "bdelete" . a:bang . " " . buffer
-	endif
+	" If it hasn't been already deleted by &bufhidden, end its pains now.
+	if bufexists(buffer) | exe "bdelete" . a:bang . " " . buffer | endif
 
 	exe current . "wincmd w"
 endfunction
