@@ -3,34 +3,34 @@ let g:loaded_bbye = 1
 
 function! s:bdeleteexcept(bang, buffer_name)
 	let except_buffer = s:str2bufnr(a:buffer_name)
-  let last_buffer_nr = bufnr('$')
-  let buffer_nr = 1
-  let warn_modified = 0
+	let last_buffer_nr = bufnr('$')
+	let buffer_nr = 1
+	let warn_modified = 0
 
-  " Pass a:buffer_name in as -1 to delete all buffers
-  if a:buffer_name == -1
-    let except_buffer = -1
-  endif
+	" Pass a:buffer_name in as -1 to delete all buffers
+	if a:buffer_name == -1
+		let except_buffer = -1
+	endif
 
-  while buffer_nr <= last_buffer_nr
-    if buffer_nr != except_buffer
-      if getbufvar(buffer_nr, "&modified") && empty(a:bang)
-        let warn_modified = 1
-      else
-        call s:bdelete(a:bang, buffer_nr)
-      endif
-    endif
-    let buffer_nr = buffer_nr + 1
-  endwhile
+	while buffer_nr <= last_buffer_nr
+		if buffer_nr != except_buffer
+			if getbufvar(buffer_nr, "&modified") && empty(a:bang)
+				let warn_modified = 1
+			else
+				call s:bdelete(a:bang, buffer_nr)
+			endif
+		endif
+		let buffer_nr = buffer_nr + 1
+	endwhile
 
-  if warn_modified
+	if warn_modified
 		let error = "E89: No write since last change for some buffers "
 		return s:warn(error . " (add ! to override)")
-  endif
+	endif
 endfunction
 
 function! s:bdeleteall(bang)
-  call s:bdeleteexcept(a:bang, -1)
+	call s:bdeleteexcept(a:bang, -1)
 endfunction
 
 function! s:bdelete(bang, buffer_name)
