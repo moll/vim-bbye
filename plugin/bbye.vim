@@ -3,17 +3,18 @@ let g:loaded_bbye = 1
 
 function! s:bdeleteexcept(bang, buffer_name)
 	let except_buffer = s:str2bufnr(a:buffer_name)
-	let last_buffer_nr = bufnr('$')
-	let buffer_nr = 1
-	let warn_modified = 0
 
 	" Pass a:buffer_name in as -1 to delete all buffers
 	if a:buffer_name == -1
 		let except_buffer = -1
 	endif
 
+	let last_buffer_nr = bufnr('$')
+	let buffer_nr = 1
+	let warn_modified = 0
+
 	while buffer_nr <= last_buffer_nr
-		if buffer_nr != except_buffer
+		if buffer_nr != except_buffer && buflisted(buffer_nr)
 			if getbufvar(buffer_nr, "&modified") && empty(a:bang)
 				let warn_modified = 1
 			else
@@ -67,7 +68,7 @@ function! s:bdelete(bang, buffer_name)
 		" If found a new buffer for this window, mission accomplished:
 		if bufnr("%") != buffer | continue | endif
 
-		call s:new(a:bang) 
+		call s:new(a:bang)
 	endfor
 
 	" Because tabbars and other appearing/disappearing windows change
