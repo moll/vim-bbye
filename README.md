@@ -63,6 +63,19 @@ If you've used any `Bclose.vim` scripts before and for some reason need the `:Bc
 command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
 ```
 
+### Integration with buffer list plugins
+
+There are plugins that make buffers tab-local (such as [vim-drawer], [vim-ctrlspace] or [betterTabs]) or otherwise limit buffer switching.
+
+If you use one of these, `:Bdelete` may switch to an unwanted buffer.
+To avoid this problem, tell bbye to use the plugin's "previous buffer" command, e.g.:
+```
+let g:bbye_previous_command = 'VimDrawerPreviousBuffer'
+```
+
+[vim-drawer]: https://github.com/samuelsimoes/vim-drawer
+[vim-ctrlspace]: https://github.com/vim-ctrlspace/vim-ctrlspace
+[betterTabs]: https://github.com/statox/betterTabs.vim
 
 License
 -------
