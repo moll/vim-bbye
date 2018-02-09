@@ -35,7 +35,7 @@ function! s:bdelete(bang, buffer_name)
 		" If found a new buffer for this window, mission accomplished:
 		if bufnr("%") != buffer | continue | endif
 
-		call s:new(a:bang) 
+		call s:new(a:bang)
 	endfor
 
 	" Because tabbars and other appearing/disappearing windows change
@@ -84,7 +84,7 @@ function! s:bwipeout(bang, buffer_name)
 		" If found a new buffer for this window, mission accomplished:
 		if bufnr("%") != buffer | continue | endif
 
-		call s:new(a:bang) 
+		call s:new(a:bang)
 	endfor
 
 	" Because tabbars and other appearing/disappearing windows change
