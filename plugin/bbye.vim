@@ -1,7 +1,7 @@
 if exists("g:loaded_bbye") || &cp | finish | endif
 let g:loaded_bbye = 1
 
-function! s:bdelete(bang, buffer_name, action)
+function! s:bdelete(action, bang, buffer_name)
 	let buffer = s:str2bufnr(a:buffer_name)
 	let w:bbye_back = 1
 
@@ -81,7 +81,7 @@ function! s:warn(msg)
 endfunction
 
 command! -bang -complete=buffer -nargs=? Bdelete
-	\ :call s:bdelete(<q-bang>, <q-args>, 'bdelete')
+	\ :call s:bdelete("bdelete", <q-bang>, <q-args>)
 
 command! -bang -complete=buffer -nargs=? Bwipeout
-	\ :call s:bdelete(<q-bang>, <q-args>, 'bwipeout')
+	\ :call s:bdelete("bwipeout", <q-bang>, <q-args>)
