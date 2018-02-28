@@ -15,6 +15,7 @@ Bbye gives you a `:Bdelete` command that behaves like a well designed citizen:
 
 Regain your throne as king of buffers!
 
+Bbye also gives you a `:Bwipeout` command that has the same behavior as `:Bdelete` but uses `:bwipeout` to actually destroy the buffer.
 
 Installing
 ----------
