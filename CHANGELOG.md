@@ -1,3 +1,6 @@
+## Unreleased
+- Adds `:Bwipeout`. Thanks, [Juan Ibiapina](http://juanibiapina.com/)!
+
 ## 1.0.1 (Jul 23, 2013)
 - Fixes `:Bdelete`ing via buffer number. Finally, perfect!
 
