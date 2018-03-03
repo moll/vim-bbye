@@ -28,7 +28,7 @@ function! s:bdelete(action, bang, buffer_name)
 		execute window . "wincmd w"
 
 		" Bprevious also wraps around the buffer list, if necessary:
-		try | exe bufnr("#") > 0 && buflisted(bufnr("#")) ? "buffer #" : "bprevious"
+		try | exe bufnr("#") > 0 && buflisted(bufnr("#")) ? "buffer #" : get(g:, "bbye_previous_command", "bprevious")
 		catch /^Vim([^)]*):E85:/ " E85: There is no listed buffer
 		endtry
 
