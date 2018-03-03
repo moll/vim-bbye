@@ -6,12 +6,12 @@ function! s:bdelete(action, bang, buffer_name)
 	let w:bbye_back = 1
 
 	if buffer < 0
-		return s:warn("E516: No buffers were deleted. No match for ".a:buffer_name)
+		return s:error("E516: No buffers were deleted. No match for ".a:buffer_name)
 	endif
 
 	if getbufvar(buffer, "&modified") && empty(a:bang)
 		let error = "E89: No write since last change for buffer "
-		return s:warn(error . buffer . " (add ! to override)")
+		return s:error(error . buffer . " (add ! to override)")
 	endif
 
 	" If the buffer is set to delete and it contains changes, we can't switch
@@ -53,7 +53,7 @@ endfunction
 function! s:str2bufnr(buffer)
 	if empty(a:buffer)
 		return bufnr("%")
-	elseif a:buffer =~ '^\d\+$'
+	elseif a:buffer =~# '^\d\+$'
 		return bufnr(str2nr(a:buffer))
 	else
 		return bufnr(a:buffer)
@@ -74,10 +74,11 @@ function! s:new(bang)
 endfunction
 
 " Using the built-in :echoerr prints a stacktrace, which isn't that nice.
-function! s:warn(msg)
+function! s:error(msg)
 	echohl ErrorMsg
 	echomsg a:msg
 	echohl NONE
+	let v:errmsg = a:msg
 endfunction
 
 command! -bang -complete=buffer -nargs=? Bdelete
