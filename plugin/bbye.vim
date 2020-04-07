@@ -1,7 +1,16 @@
 if exists("g:loaded_bbye") || &cp | finish | endif
 let g:loaded_bbye = 1
 
-function! s:bdelete(action, bang, buffer_name)
+function! s:bdelete(action, bang, buffer_names)
+        let l:buffer_name_list = split(a:buffer_names)
+        let l:buffer_list = []
+        for name in l:buffer_name_list
+                call s:bufferdelete(a:action, a:bang, name)
+        endfor
+        
+endfunction
+
+function! s:bufferdelete(action, bang, buffer_name)
 	let buffer = s:str2bufnr(a:buffer_name)
 	let w:bbye_back = 1
 
