@@ -114,9 +114,9 @@ function! s:bdeletes(action, bang, range, arg1, arg2, ...)
 	endfor
 endfunction
 
-command! -complete=buffer -nargs=* -range=% -addr=buffers Bdelete
+command! -bang -complete=buffer -nargs=* -range=% -addr=buffers Bdelete
 	\ :call s:bdeletes("bdelete", <q-bang>, <range>, <line1>, <line2>, <f-args>)
 
-command! -complete=buffer -nargs=* -range=% -addr=buffers Bdelete
+command! -bang -complete=buffer -nargs=* -range=% -addr=buffers Bdelete
 \ :call s:bdeletes("bwipeout", <q-bang>, <range>, <line1>, <line2>, <f-args>)
 
