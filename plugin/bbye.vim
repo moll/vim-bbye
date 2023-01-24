@@ -84,8 +84,39 @@ function! s:error(msg)
 	let v:errmsg = a:msg
 endfunction
 
-command! -bang -complete=buffer -nargs=? Bdelete
-	\ :call s:bdelete("bdelete", <q-bang>, <q-args>)
+function! s:bdeletes(action, bang, range, arg1, arg2, ...)
+	let buffer_list = []
+	if a:range == 1
+		let buffer_list = add(buffer_list, arg1)
+	elseif a:range == 2
+		let buffer_index = a:arg1
+		while buffer_index <= a:arg2
+			let buffer = s:str2bufnr(buffer_index)
+			if buffer >= 0
+				let buffer_list = add(buffer_list, buffer_index)
+			endif
+			let buffer_index = buffer_index + 1
+		endwhile
+	endif
 
-command! -bang -complete=buffer -nargs=? Bwipeout
-	\ :call s:bdelete("bwipeout", <q-bang>, <q-args>)
+	let i = 1
+	for buffer_name in a:000
+		let buffer_list = add(buffer_list, buffer_name)
+		let i = i + 1
+	endfor
+
+	if len(buffer_list) == 0
+		call s:bdelete(a:action, a:bang, "")
+	endif
+
+	for buffer_name in buffer_list
+		call s:bdelete(a:action, a:bang, buffer_name)
+	endfor
+endfunction
+
+command! -bang -complete=buffer -nargs=* -range=% -addr=buffers Bdelete
+	\ :call s:bdeletes("bdelete", <q-bang>, <range>, <line1>, <line2>, <f-args>)
+
+command! -bang -complete=buffer -nargs=* -range=% -addr=buffers Bdelete
+\ :call s:bdeletes("bwipeout", <q-bang>, <range>, <line1>, <line2>, <f-args>)
+
